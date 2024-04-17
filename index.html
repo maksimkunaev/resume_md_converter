@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Markdown Studio</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        font-size: 12px; /* Regular view font size */
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+      textarea {
+        width: 48%;
+        height: 90vh;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        resize: vertical;
+      }
+      #htmlOutput {
+        width: 48%;
+        height: 90vh;
+        overflow-y: scroll;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      #printButton {
+        display: block;
+        margin-top: 10px;
+      }
+      header,
+      section {
+        margin-bottom: 20px;
+      }
+      header h1 {
+        font-size: 24px;
+        color: #000;
+      }
+      .section-title {
+        font-size: 18px;
+        border-bottom: 2px solid #666;
+        margin-bottom: 10px;
+      }
+      @media print {
+        body {
+          font-size: 16px; /* Larger font size for printing */
+        }
+        textarea,
+        #printButton {
+          display: none; /* Hide textarea and the print button during print */
+        }
+        #htmlOutput {
+          width: 100%;
+          height: auto;
+          overflow: visible;
+          border: none;
+          background-color: white;
+          padding: 0;
+        }
+      }
+
+      .wrapper {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <textarea
+        id="markdownInput"
+        placeholder="Enter Markdown here..."
+      ></textarea>
+      <div id="htmlOutput"></div>
+    </div>
+    <button id="printButton" onclick="window.print();">Print HTML</button>
+
+    <script>
+      const inputArea = document.getElementById("markdownInput");
+      const outputDiv = document.getElementById("htmlOutput");
+      const converter = new showdown.Converter({
+        tables: true,
+        simplifiedAutoLink: true,
+        strikethrough: true,
+        tasklists: true,
+      });
+
+      inputArea.addEventListener("input", function () {
+        const markdownText = inputArea.value;
+        const htmlText = converter.makeHtml(markdownText);
+        outputDiv.innerHTML = htmlText;
+      });
+    </script>
+  </body>
+</html>
